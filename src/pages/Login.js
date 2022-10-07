@@ -45,7 +45,7 @@ class Login extends React.Component {
         <p>teste@teste.com</p>
 
         <form
-          onSubmit={this.handleButton}
+          onSubmit={ this.handleButton }
         >
           <label htmlFor="email">
             e-mail
@@ -54,8 +54,8 @@ class Login extends React.Component {
               data-testid="input-gravatar-email"
               type="email"
               name="email"
-              value={email}
-              onChange={this.handleInput}
+              value={ email }
+              onChange={ this.handleInput }
             />
           </label>
           <label htmlFor="name">
@@ -65,14 +65,14 @@ class Login extends React.Component {
               data-testid="input-player-name"
               type="name"
               name="name"
-              value={name}
-              onChange={this.handleInput}
+              value={ name }
+              onChange={ this.handleInput }
             />
           </label>
           <button
             data-testid="btn-play"
             type="submit"
-            disabled={isButtonDisable}
+            disabled={ isButtonDisable }
           >
             Play
           </button>
