@@ -38,6 +38,7 @@ class Login extends React.Component {
 
   render() {
     const { isButtonDisable, email, name } = this.state;
+    const { history } = this.props;
 
     return (
       <>
@@ -76,7 +77,16 @@ class Login extends React.Component {
           >
             Play
           </button>
+
+          <button
+            type="button"
+            data-testid="btn-settings"
+            onClick={ () => history.push('/settings') }
+          >
+            Configurações
+          </button>
         </form>
+
       </>
     );
   }
