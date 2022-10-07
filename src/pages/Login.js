@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { func, shape } from 'prop-types';
+import { Redirect } from 'react-router-dom';
 import { getName, requestAPI } from '../redux/actions';
 
 class Login extends React.Component {
@@ -38,6 +39,7 @@ class Login extends React.Component {
 
   render() {
     const { isButtonDisable, email, name } = this.state;
+    const { history } = this.props;
 
     return (
       <>
@@ -76,7 +78,16 @@ class Login extends React.Component {
           >
             Play
           </button>
+
+          <button
+            type="button"
+            data-testid="btn-settings"
+            onClick={ () => history.push('/settings') }
+          >
+            Configurações
+          </button>
         </form>
+
       </>
     );
   }
