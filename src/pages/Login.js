@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { func, shape } from 'prop-types';
-import { Redirect } from 'react-router-dom';
 import { getName, requestAPI } from '../redux/actions';
 
 class Login extends React.Component {
