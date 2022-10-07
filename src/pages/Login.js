@@ -1,0 +1,92 @@
+import React from 'react';
+import { connect } from 'react-redux';
+import { func } from 'prop-types';
+
+class Login extends React.Component {
+  state = {
+    email: '',
+    name: '',
+    isButtonDisable: true,
+  };
+
+  handleButton = (event) => {
+    event.preventDefault();
+    const { saveUserName } = this.props;
+    const { name } = this.state;
+    saveUserName(name);
+    // history.push('/carteira');
+  };
+
+  handleInput = ({ target }) => {
+    const { name, value } = target;
+    this.setState({
+      [name]: value,
+    }, () => this.verifyButton());
+  };
+
+  verifyButton = () => {
+    const { email, name } = this.state;
+    const regex = /\S+@\S+\.\S+/;
+    const verifyEmail = regex.test(email);
+    const verifyName = name !== '';
+    this.setState({
+      isButtonDisable: !(verifyEmail && verifyName),
+    });
+  };
+
+  render() {
+    const { isButtonDisable, email, name } = this.state;
+
+    return (
+      <>
+        <div>Login</div>
+        <p>teste@teste.com</p>
+
+        <form
+          onSubmit={ this.handleButton }
+        >
+          <label htmlFor="email">
+            e-mail
+            <input
+              id="email"
+              data-testid="input-gravatar-email"
+              type="email"
+              name="email"
+              value={ email }
+              onChange={ this.handleInput }
+            />
+          </label>
+          <label htmlFor="name">
+            Name
+            <input
+              id="name"
+              data-testid="input-player-name"
+              type="name"
+              name="name"
+              value={ name }
+              onChange={ this.handleInput }
+            />
+          </label>
+          <button
+            data-testid="btn-play"
+            type="submit"
+            disabled={ isButtonDisable }
+          >
+            Play
+          </button>
+        </form>
+      </>
+    );
+  }
+}
+
+Login.propTypes = {
+  saveUserName: func.isRequired,
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  saveUserName: (payload) => dispatch(getName(payload)),
+  // callrequestAPI: () => dispatch(requestAPI()),
+});
+
+export default connect(null, mapDispatchToProps)(Login);
