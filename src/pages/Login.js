@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { func } from 'prop-types';
+import { func, shape } from 'prop-types';
+import { getName, requestAPI } from '../redux/actions';
 
 class Login extends React.Component {
   state = {
@@ -11,10 +12,11 @@ class Login extends React.Component {
 
   handleButton = (event) => {
     event.preventDefault();
-    const { saveUserName } = this.props;
+    const { saveUserName, history, callrequestAPI } = this.props;
     const { name } = this.state;
     saveUserName(name);
-    // history.push('/carteira');
+    callrequestAPI();
+    history.push('/game');
   };
 
   handleInput = ({ target }) => {
@@ -82,11 +84,15 @@ class Login extends React.Component {
 
 Login.propTypes = {
   saveUserName: func.isRequired,
+  callrequestAPI: func.isRequired,
+  history: shape({
+    push: func.isRequired,
+  }).isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({
   saveUserName: (payload) => dispatch(getName(payload)),
-  // callrequestAPI: () => dispatch(requestAPI()),
+  callrequestAPI: () => dispatch(requestAPI()),
 });
 
 export default connect(null, mapDispatchToProps)(Login);
