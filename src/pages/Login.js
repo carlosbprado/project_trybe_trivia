@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { func } from 'prop-types';
+import { func, shape } from 'prop-types';
+import { getName, requestAPI } from '../redux/actions';
 
 class Login extends React.Component {
   state = {
@@ -11,10 +12,11 @@ class Login extends React.Component {
 
   handleButton = (event) => {
     event.preventDefault();
-    const { saveUserName } = this.props;
+    const { saveUserName, history, callrequestAPI } = this.props;
     const { name } = this.state;
     saveUserName(name);
-    // history.push('/carteira');
+    callrequestAPI();
+    history.push('/game');
   };
 
   handleInput = ({ target }) => {
@@ -43,7 +45,7 @@ class Login extends React.Component {
         <p>teste@teste.com</p>
 
         <form
-          onSubmit={ this.handleButton }
+          onSubmit={this.handleButton}
         >
           <label htmlFor="email">
             e-mail
@@ -52,8 +54,8 @@ class Login extends React.Component {
               data-testid="input-gravatar-email"
               type="email"
               name="email"
-              value={ email }
-              onChange={ this.handleInput }
+              value={email}
+              onChange={this.handleInput}
             />
           </label>
           <label htmlFor="name">
@@ -63,14 +65,14 @@ class Login extends React.Component {
               data-testid="input-player-name"
               type="name"
               name="name"
-              value={ name }
-              onChange={ this.handleInput }
+              value={name}
+              onChange={this.handleInput}
             />
           </label>
           <button
             data-testid="btn-play"
             type="submit"
-            disabled={ isButtonDisable }
+            disabled={isButtonDisable}
           >
             Play
           </button>
@@ -82,11 +84,15 @@ class Login extends React.Component {
 
 Login.propTypes = {
   saveUserName: func.isRequired,
+  callrequestAPI: func.isRequired,
+  history: shape({
+    push: func.isRequired,
+  }).isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({
   saveUserName: (payload) => dispatch(getName(payload)),
-  // callrequestAPI: () => dispatch(requestAPI()),
+  callrequestAPI: () => dispatch(requestAPI()),
 });
 
 export default connect(null, mapDispatchToProps)(Login);
