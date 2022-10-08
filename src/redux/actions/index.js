@@ -1,18 +1,12 @@
-export const GET_NAME = 'GET_NAME';
-export const GET_EMAIL = 'GET_EMAIL';
+export const GET_USER = 'GET_USER';
 export const INITIAL_REQ = 'INITIAL_REQ';
 export const GET_API = 'GET_API';
 
 export const initialRequest = () => ({ type: INITIAL_REQ });
 const number = 3;
 
-export const getName = (payload) => ({
-  type: GET_NAME,
-  payload,
-});
-
-export const getEmail = (payload) => ({
-  type: GET_EMAIL,
+export const getUser = (payload) => ({
+  type: GET_USER,
   payload,
 });
 

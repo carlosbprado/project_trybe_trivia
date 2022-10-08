@@ -38,7 +38,7 @@ describe('testa componente Login', () => {
     expect(button).toBeInTheDocument();
   });
 
-  test('Se o botao inicia desativado', () => {
+  test('Se o botao Play inicia desativado', () => {
     renderWithRouterAndRedux(<App />);
     const button = screen.getByTestId('btn-play');
     expect(button).toHaveAttribute('disabled');

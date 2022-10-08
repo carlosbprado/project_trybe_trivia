@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { func, shape } from 'prop-types';
-import { getEmail, getName, requestAPI } from '../redux/actions';
+import { getUser, requestAPI } from '../redux/actions';
 
 class Login extends React.Component {
   state = {
@@ -12,10 +12,9 @@ class Login extends React.Component {
 
   handleButton = (event) => {
     event.preventDefault();
-    const { saveUserName, callGetEmail, history, callrequestAPI } = this.props;
+    const { callGetUser, history, callrequestAPI } = this.props;
     const { name, email } = this.state;
-    saveUserName(name);
-    callGetEmail(email);
+    callGetUser({ name, email });
     callrequestAPI();
     history.push('/game');
   };
@@ -94,22 +93,16 @@ class Login extends React.Component {
 }
 
 Login.propTypes = {
-  saveUserName: func.isRequired,
+  callGetUser: func.isRequired,
   callrequestAPI: func.isRequired,
-  callGetEmail: func.isRequired,
   history: shape({
     push: func.isRequired,
   }).isRequired,
 };
 
-const mapStateToProps = (state) => ({
-  email: state.user.email,
-});
-
 const mapDispatchToProps = (dispatch) => ({
-  saveUserName: (payload) => dispatch(getName(payload)),
+  callGetUser: (payload) => dispatch(getUser(payload)),
   callrequestAPI: () => dispatch(requestAPI()),
-  callGetEmail: (payload) => dispatch(getEmail(payload)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(null, mapDispatchToProps)(Login);
