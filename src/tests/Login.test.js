@@ -26,9 +26,15 @@ describe('testa componente Login', () => {
     expect(nameInput).toBeInTheDocument();
   });
 
-  test('Se possui um botao', () => {
+  test('Se possui um botao Play', () => {
     renderWithRouterAndRedux(<App />);
     const button = screen.getByTestId('btn-play');
+    expect(button).toBeInTheDocument();
+  });
+
+  test('Se possui um botao Settings', () => {
+    renderWithRouterAndRedux(<App />);
+    const button = screen.getByTestId('btn-settings');
     expect(button).toBeInTheDocument();
   });
 
@@ -49,7 +55,21 @@ describe('testa componente Login', () => {
     expect(button).toBeEnabled();
   });
 
-  test('Se, ao clicar no botão redireciona para o /game', () => {
+  test('Se, ao clicar no botão Play redireciona para o /settings', () => {
+    const { history } = renderWithRouterAndRedux(<App />);
+    const emailInput = screen.getByTestId(emailText);
+    const nameInput = screen.getByTestId(nameText);
+    const button = screen.getByTestId('btn-settings');
+
+    userEvent.type(emailInput, 'email@provider.com');
+    userEvent.type(nameInput, '123456');
+    userEvent.click(button);
+
+    const { pathname } = history.location;
+    expect(pathname).toBe('/settings');
+  });
+
+  test('Se, ao clicar no botão Settings redireciona para o /game', () => {
     const { history } = renderWithRouterAndRedux(<App />);
     const emailInput = screen.getByTestId(emailText);
     const nameInput = screen.getByTestId(nameText);
