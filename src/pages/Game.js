@@ -6,7 +6,31 @@ import Header from '../components/Header';
 class Game extends React.Component {
   state = {
     answerColor: false,
+    isDisable: false,
+    timer: 30,
   };
+
+  componentDidMount() {
+    setInterval((
+    ) => {
+      this.setState(prevState => ({
+        timer: prevState.timer - 1,
+      }),
+        () => {
+          this.stopTimer()
+        }
+      )
+    }, 1000)
+  }
+
+  stopTimer = () => {
+    setTimeout(() => {
+      this.setState({
+        isDisable: true,
+      })
+    }, 30000)
+  }
+
 
   shuffleAnswers = (question) => {
     const NUMBER = 0.5;
@@ -22,11 +46,14 @@ class Game extends React.Component {
 
   render() {
     const { questions } = this.props;
-    const { answerColor } = this.state;
+    const { answerColor, timer } = this.state;
     console.log(questions);
     return (
       <>
         <Header />
+        <div>
+          {timer}
+        </div>
         {questions.length > 0 && (
           <>
             <p
@@ -48,22 +75,22 @@ class Game extends React.Component {
                 .map((answer, index) => ((answer === questions[0].correct_answer)
                   ? (
                     <button
-                      key={ answer }
+                      key={answer}
                       data-testid="correct-answer"
                       type="button"
-                      className={ answerColor ? 'greenColor' : '' }
-                      onClick={ this.handleAnswers }
+                      className={answerColor ? 'greenColor' : ''}
+                      onClick={this.handleAnswers}
 
                     >
                       {answer}
                     </button>
                   ) : (
                     <button
-                      key={ answer }
-                      data-testid={ `wrong-answer-${index}` }
+                      key={answer}
+                      data-testid={`wrong-answer-${index}`}
                       type="button"
-                      className={ answerColor ? 'redColor' : '' }
-                      onClick={ this.handleAnswers }
+                      className={answerColor ? 'redColor' : ''}
+                      onClick={this.handleAnswers}
 
                     >
                       {answer}
