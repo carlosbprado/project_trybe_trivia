@@ -3,57 +3,77 @@ import { arrayOf, shape } from 'prop-types';
 import { connect } from 'react-redux';
 import Header from '../components/Header';
 
+const ONE_SEC = 1000;
+
 class Game extends React.Component {
   state = {
     answerColor: false,
     isDisable: false,
     timer: 30,
+    answers: [],
+    intervalId: 0,
   };
 
   componentDidMount() {
-    setInterval((
-    ) => {
-      this.setState(prevState => ({
-        timer: prevState.timer - 1,
-      }),
-        () => {
-          this.stopTimer()
-        }
-      )
-    }, 1000)
+    const { questions } = this.props;
+
+    this.shuffleAnswers();
+    if (questions.length > 0) this.startTimer();
   }
+
+  startTimer = () => {
+    const intervalId = setInterval(() => {
+      const { timer } = this.state;
+
+      this.setState(
+        (prevState) => ({
+          timer: prevState.timer - 1,
+        }),
+        () => {
+          if (timer === 1) this.stopTimer(intervalId);
+        },
+      );
+    }, ONE_SEC);
+
+    this.setState({ intervalId });
+  };
 
   stopTimer = () => {
-    setTimeout(() => {
-      this.setState({
-        isDisable: true,
-      })
-    }, 30000)
-  }
+    const { intervalId } = this.state;
+    clearInterval(intervalId);
+    this.setState({ isDisable: true });
+  };
 
-
-  shuffleAnswers = (question) => {
+  shuffleAnswers = () => {
+    const { questions } = this.props;
     const NUMBER = 0.5;
-    const answers = [...question.incorrect_answers, question.correct_answer];
-    return answers.sort(() => Math.random() - NUMBER);
+    const answers = [
+      ...questions[0].incorrect_answers,
+      questions[0].correct_answer,
+    ];
+    const randomAnswers = answers.sort(() => Math.random() - NUMBER);
+    this.setState({ answers: randomAnswers });
   };
 
   handleAnswers = () => {
     this.setState({
       answerColor: true,
     });
+
+    this.stopTimer();
   };
 
   render() {
     const { questions } = this.props;
-    const { answerColor, timer } = this.state;
-    console.log(questions);
+    const { answerColor, timer, isDisable, answers } = this.state;
+
     return (
       <>
         <Header />
         <div>
           {timer}
         </div>
+
         {questions.length > 0 && (
           <>
             <p
@@ -71,27 +91,27 @@ class Game extends React.Component {
             <div
               data-testid="answer-options"
             >
-              {this.shuffleAnswers(questions[0])
+              {answers
                 .map((answer, index) => ((answer === questions[0].correct_answer)
                   ? (
                     <button
-                      key={answer}
+                      key={ answer }
                       data-testid="correct-answer"
                       type="button"
-                      className={answerColor ? 'greenColor' : ''}
-                      onClick={this.handleAnswers}
-
+                      className={ answerColor ? 'greenColor' : '' }
+                      onClick={ this.handleAnswers }
+                      disabled={ isDisable }
                     >
                       {answer}
                     </button>
                   ) : (
                     <button
-                      key={answer}
-                      data-testid={`wrong-answer-${index}`}
+                      key={ answer }
+                      data-testid={ `wrong-answer-${index}` }
                       type="button"
-                      className={answerColor ? 'redColor' : ''}
-                      onClick={this.handleAnswers}
-
+                      className={ answerColor ? 'redColor' : '' }
+                      onClick={ this.handleAnswers }
+                      disabled={ isDisable }
                     >
                       {answer}
                     </button>
