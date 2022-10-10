@@ -15,7 +15,7 @@ class Login extends React.Component {
     const { callGetUser, history, callRequestAPI } = this.props;
     const { name, email } = this.state;
     callGetUser({ name, email });
-    callRequestAPI();
+    callRequestAPI(history);
     history.push('/game');
   };
 
@@ -102,7 +102,7 @@ Login.propTypes = {
 
 const mapDispatchToProps = (dispatch) => ({
   callGetUser: (payload) => dispatch(getUser(payload)),
-  callRequestAPI: () => dispatch(requestAPI()),
+  callRequestAPI: (history) => dispatch(requestAPI(history)),
 });
 
 export default connect(null, mapDispatchToProps)(Login);
