@@ -1,4 +1,4 @@
-import { GET_NAME, GET_EMAIL, INITIAL_REQ } from '../actions';
+import { GET_USER, INITIAL_REQ } from '../actions';
 
 const INITIAL_STATE = {
   name: '',
@@ -9,15 +9,12 @@ const user = (state = INITIAL_STATE, { type, payload }) => {
   switch (type) {
   case INITIAL_REQ:
     return state;
-  case GET_NAME:
+
+  case GET_USER:
     return {
       ...state,
-      name: payload,
-    };
-  case GET_EMAIL:
-    return {
-      ...state,
-      email: payload,
+      email: payload.email,
+      name: payload.name,
     };
 
   default:
