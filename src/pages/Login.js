@@ -16,7 +16,7 @@ class Login extends React.Component {
     const { name, email } = this.state;
     callGetUser({ name, email });
     callRequestAPI(history);
-    history.push('/game');
+    // history.push('/game');
   };
 
   handleInput = ({ target }) => {

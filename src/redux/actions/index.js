@@ -33,5 +33,6 @@ export const requestAPI = (history) => async (dispatch) => {
   } else {
     localStorage.setItem('token', token);
     dispatch(responseAPI(result.results));
+    history.push('/game');
   }
 };
