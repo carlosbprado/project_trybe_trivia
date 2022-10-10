@@ -60,4 +60,15 @@ body {
   40%, 60% {
     transform: translate3d(4px, 0, 0);
   }
+
 }
+
+.redColor {
+  border: 3px solid red;
+}
+
+.greenColor {
+  border:3px solid rgb(6, 240, 15)
+}
+
+

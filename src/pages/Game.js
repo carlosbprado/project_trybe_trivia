@@ -4,14 +4,26 @@ import { connect } from 'react-redux';
 import Header from '../components/Header';
 
 class Game extends React.Component {
+  state = {
+    answerColor: false,
+  };
+
   shuffleAnswers = (question) => {
     const NUMBER = 0.5;
     const answers = [...question.incorrect_answers, question.correct_answer];
     return answers.sort(() => Math.random() - NUMBER);
   };
 
+  handleAnswers = () => {
+    this.setState({
+      answerColor: true,
+    });
+  };
+
   render() {
     const { questions } = this.props;
+    const { answerColor } = this.state;
+    console.log(questions);
     return (
       <>
         <Header />
@@ -36,15 +48,23 @@ class Game extends React.Component {
                 .map((answer, index) => ((answer === questions[0].correct_answer)
                   ? (
                     <button
+                      key={ answer }
                       data-testid="correct-answer"
                       type="button"
+                      className={ answerColor ? 'greenColor' : '' }
+                      onClick={ this.handleAnswers }
+
                     >
                       {answer}
                     </button>
                   ) : (
                     <button
+                      key={ answer }
                       data-testid={ `wrong-answer-${index}` }
                       type="button"
+                      className={ answerColor ? 'redColor' : '' }
+                      onClick={ this.handleAnswers }
+
                     >
                       {answer}
                     </button>
@@ -69,7 +89,3 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps)(Game);
-
-// function shuffle(array) {
-//   return array.sort(() => Math.random() - 0.5).
-// }
