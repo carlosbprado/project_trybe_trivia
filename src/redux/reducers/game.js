@@ -4,16 +4,16 @@ const INITIAL_STATE = {
   questions: [],
 };
 
-const questions = (state = INITIAL_STATE, { type, payload }) => {
+const game = (state = INITIAL_STATE, { type, payload }) => {
   switch (type) {
   case GET_API:
     return {
       ...state,
-      questions: [payload.results],
+      questions: [...payload],
     };
   default:
     return state;
   }
 };
 
-export default questions;
+export default game;

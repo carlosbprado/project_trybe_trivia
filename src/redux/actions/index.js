@@ -16,27 +16,24 @@ export const responseAPI = (payload) => ({
 });
 
 const getToken = async () => {
-  const localStorageToken = JSON.parse(localStorage.getItem('token'));
-  if (localStorageToken) {
-    return localStorageToken;
-  }
+  const localStorageToken = localStorage.getItem('token');
+  if (localStorageToken) return localStorageToken;
   const response = await fetch('https://opentdb.com/api_token.php?command=request');
   const result = await response.json();
-  return result;
+  return result.token;
 };
 
-const tokenValidate = async () => {
-  const tokenResponse = await getToken();
-  const token = tokenResponse.response_code === NUMBER
-    ? await getToken() : tokenResponse.token;
-  localStorage.setItem('token', token);
-  return token;
-};
-
-export const requestAPI = () => async (dispatch) => {
-  const response = await fetch(`https://opentdb.com/api.php?amount=5&token=${await tokenValidate()}`);
+export const requestAPI = (history) => async (dispatch) => {
+  const token = await getToken();
+  const response = await fetch(`https://opentdb.com/api.php?amount=5&token=${token}`);
   const result = await response.json();
-  dispatch(responseAPI(result));
+  if (result.response_code === NUMBER) {
+    localStorage.removeItem('token');
+    history.push('/');
+  } else {
+    localStorage.setItem('token', token);
+    dispatch(responseAPI(result.results));
+  }
 };
 
 // export const requestAPI = () => async (dispatch) => {
@@ -47,14 +44,24 @@ export const requestAPI = () => async (dispatch) => {
 //   const response = await fetch(`https://opentdb.com/api.php?amount=5&token=${newToken}`);
 //   const result = await response.json();
 //   if (result.response_code === number) {
-//     const newNewToken = await getToken();
-//     localStorage.setItem('token', newNewToken);
-//     const newResponse = await fetch(
-//       `https://opentdb.com/api.php?amount=5&token=${newNewToken}`,
+//     localStorage.removeItem('token');
+// history.push('/');
 //     );
 //     const newResult = await newResponse.json();
 //     dispatch(responseAPI(newResult));
 //   } else {
 //     dispatch(responseAPI(result));
+//   }
+// };
+
+// const tokenValidate = async (history) => {
+//   const tokenResponse = await getToken();
+//   if (tokenResponse.response_code == NUMBER) {
+//     localStorage.removeItem('token');
+//     history.push('/');
+//   }
+//   else {
+//     localStorage.setItem('token', tokenResponse.token);
+//     return tokenResponse.token
 //   }
 // };
