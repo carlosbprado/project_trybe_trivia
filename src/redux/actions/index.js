@@ -35,33 +35,3 @@ export const requestAPI = (history) => async (dispatch) => {
     dispatch(responseAPI(result.results));
   }
 };
-
-// export const requestAPI = () => async (dispatch) => {
-//   const localStorageToken = localStorage.getItem('token');
-//   const newToken = localStorageToken || (await getToken());
-//   localStorage.setItem('token', newToken);
-//   dispatch(initialRequest());
-//   const response = await fetch(`https://opentdb.com/api.php?amount=5&token=${newToken}`);
-//   const result = await response.json();
-//   if (result.response_code === number) {
-//     localStorage.removeItem('token');
-// history.push('/');
-//     );
-//     const newResult = await newResponse.json();
-//     dispatch(responseAPI(newResult));
-//   } else {
-//     dispatch(responseAPI(result));
-//   }
-// };
-
-// const tokenValidate = async (history) => {
-//   const tokenResponse = await getToken();
-//   if (tokenResponse.response_code == NUMBER) {
-//     localStorage.removeItem('token');
-//     history.push('/');
-//   }
-//   else {
-//     localStorage.setItem('token', tokenResponse.token);
-//     return tokenResponse.token
-//   }
-// };
