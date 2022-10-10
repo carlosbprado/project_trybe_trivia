@@ -12,10 +12,10 @@ class Login extends React.Component {
 
   handleButton = (event) => {
     event.preventDefault();
-    const { callGetUser, history, callrequestAPI } = this.props;
+    const { callGetUser, history, callRequestAPI } = this.props;
     const { name, email } = this.state;
     callGetUser({ name, email });
-    callrequestAPI();
+    callRequestAPI();
     history.push('/game');
   };
 
@@ -94,7 +94,7 @@ class Login extends React.Component {
 
 Login.propTypes = {
   callGetUser: func.isRequired,
-  callrequestAPI: func.isRequired,
+  callRequestAPI: func.isRequired,
   history: shape({
     push: func.isRequired,
   }).isRequired,
@@ -102,7 +102,7 @@ Login.propTypes = {
 
 const mapDispatchToProps = (dispatch) => ({
   callGetUser: (payload) => dispatch(getUser(payload)),
-  callrequestAPI: () => dispatch(requestAPI()),
+  callRequestAPI: () => dispatch(requestAPI()),
 });
 
 export default connect(null, mapDispatchToProps)(Login);
