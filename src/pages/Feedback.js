@@ -34,16 +34,11 @@ class Feedback extends React.Component {
         >
           Ranking
         </button>
+
       </div>
     );
   }
 }
-
-/*
-Ao clicar no botão "Ranking", a pessoa deve ser redirecionada para a tela de ranking
-O botão para ir para a tela de ranking deve possuir o atributo data-testid com o valor btn-ranking
-A tela de ranking deve possuir um título com o atributo data-testid contendo o valor ranking-title
- */
 
 Feedback.propTypes = {
   assertions: number.isRequired,
