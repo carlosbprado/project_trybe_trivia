@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { func, shape } from 'prop-types';
-import { getUser, requestAPI } from '../redux/actions';
+import { savePlayer, requestAPI } from '../redux/actions';
 
 class Login extends React.Component {
   state = {
@@ -12,11 +12,10 @@ class Login extends React.Component {
 
   handleButton = (event) => {
     event.preventDefault();
-    const { callGetUser, history, callRequestAPI } = this.props;
+    const { callSavePlayer, history, callRequestAPI } = this.props;
     const { name, email } = this.state;
-    callGetUser({ name, email });
+    callSavePlayer({ name, email });
     callRequestAPI(history);
-    // history.push('/game');
   };
 
   handleInput = ({ target }) => {
@@ -93,7 +92,7 @@ class Login extends React.Component {
 }
 
 Login.propTypes = {
-  callGetUser: func.isRequired,
+  callSavePlayer: func.isRequired,
   callRequestAPI: func.isRequired,
   history: shape({
     push: func.isRequired,
@@ -101,7 +100,7 @@ Login.propTypes = {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  callGetUser: (payload) => dispatch(getUser(payload)),
+  callSavePlayer: (payload) => dispatch(savePlayer(payload)),
   callRequestAPI: (history) => dispatch(requestAPI(history)),
 });
 
