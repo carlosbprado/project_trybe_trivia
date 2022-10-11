@@ -10,6 +10,16 @@ export const savePlayer = (payload) => ({
   payload,
 });
 
+export const updateScore = (payload) => ({
+  type: UPDATE_SCORE,
+  payload,
+});
+
+export const updateAssertions = (payload) => ({
+  type: UPDATE_ASSERTIONS,
+  payload,
+});
+
 export const initialRequest = () => ({ type: INITIAL_REQ });
 
 export const responseAPI = (payload) => ({
