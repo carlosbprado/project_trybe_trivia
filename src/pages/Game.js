@@ -7,6 +7,7 @@ import { updateAssertions, updateScore } from '../redux/actions';
 const ONE_SEC = 1000;
 const NUMBER = 0.5;
 const HARD_POINT = 3;
+const MAX_QUESTION_POSITION = 5;
 
 class Game extends React.Component {
   state = {
@@ -15,6 +16,7 @@ class Game extends React.Component {
     timer: 30,
     answers: [],
     intervalId: 0,
+    questionPosition: 0,
   };
 
   componentDidMount() {
@@ -49,9 +51,11 @@ class Game extends React.Component {
   };
 
   shuffleAnswers = (questions) => {
+    const { questionPosition } = this.state;
+
     const answers = [
-      ...questions[0].incorrect_answers,
-      questions[0].correct_answer,
+      ...questions[questionPosition].incorrect_answers,
+      questions[questionPosition].correct_answer,
     ];
     const randomAnswers = answers.sort(() => Math.random() - NUMBER);
     this.setState({ answers: randomAnswers });
@@ -66,10 +70,10 @@ class Game extends React.Component {
   };
 
   calculateScore = (answer) => {
-    const { timer } = this.state;
+    const { timer, questionPosition } = this.state;
     const { questions, callUpdateScore, callUpdateAssertions } = this.props;
     const basePoints = 10;
-    const { difficulty, correct_answer: correctAnswer } = questions[0];
+    const { difficulty, correct_answer: correctAnswer } = questions[questionPosition];
     let difficultyPoints = 0;
 
     if (difficulty === 'easy') difficultyPoints = 1;
@@ -83,9 +87,34 @@ class Game extends React.Component {
     }
   };
 
+  handleNextQuestion = () => {
+    const { history } = this.props;
+
+    this.setState(
+      ({ questionPosition }) => ({
+
+        questionPosition: questionPosition <= MAX_QUESTION_POSITION
+          ? questionPosition + 1 : questionPosition,
+        answerColor: false,
+        isDisable: false,
+        timer: 30,
+      }),
+      () => {
+        const { questions } = this.props;
+        const { questionPosition } = this.state;
+
+        if (questionPosition === MAX_QUESTION_POSITION) history.push('/feedback');
+        else {
+          this.shuffleAnswers(questions);
+          this.startTimer();
+        }
+      },
+    );
+  };
+
   render() {
     const { questions } = this.props;
-    const { answerColor, timer, isDisable, answers } = this.state;
+    const { answerColor, timer, isDisable, answers, questionPosition } = this.state;
 
     return (
       <>
@@ -94,54 +123,68 @@ class Game extends React.Component {
           {timer}
         </div>
 
-        {questions.length > 0 && (
+        {questions.length > 0 && questionPosition < MAX_QUESTION_POSITION && (
           <>
             <p
               data-testid="question-category"
             >
-              {questions[0].category}
+              {questions[questionPosition].category}
             </p>
             <br />
             <p
               data-testid="question-text"
             >
-              {questions[0].question}
+              {questions[questionPosition].question}
             </p>
             <br />
             <div
               data-testid="answer-options"
             >
               {answers
-                .map((answer, index) => ((answer === questions[0].correct_answer)
-                  ? (
-                    <button
-                      key={ answer }
-                      data-testid="correct-answer"
-                      type="button"
-                      className={ answerColor ? 'greenColor' : '' }
-                      onClick={ () => this.handleAnswers(answer) }
-                      disabled={ isDisable }
-                    >
-                      {answer}
-                    </button>
-                  ) : (
-                    <button
-                      key={ answer }
-                      data-testid={ `wrong-answer-${index}` }
-                      type="button"
-                      className={ answerColor ? 'redColor' : '' }
-                      onClick={ () => this.handleAnswers(answer) }
-                      disabled={ isDisable }
-                    >
-                      {answer}
-                    </button>
-                  )
+                .map((answer, index) => (
+                  (answer === questions[questionPosition].correct_answer)
+                    ? (
+                      <button
+                        key={ answer }
+                        data-testid="correct-answer"
+                        type="button"
+                        className={ answerColor ? 'greenColor' : '' }
+                        onClick={ () => this.handleAnswers(answer) }
+                        disabled={ isDisable }
+                      >
+                        {answer}
+                      </button>
+                    ) : (
+                      <button
+                        key={ answer }
+                        data-testid={ `wrong-answer-${index}` }
+                        type="button"
+                        className={ answerColor ? 'redColor' : '' }
+                        onClick={ () => this.handleAnswers(answer) }
+                        disabled={ isDisable }
+                      >
+                        {answer}
+                      </button>
+                    )
 
                 ))}
             </div>
 
           </>
         )}
+
+        {
+          isDisable && (
+            <button
+              type="button"
+              data-testid="btn-next"
+              onClick={ this.handleNextQuestion }
+            >
+              Next
+
+            </button>
+          )
+        }
       </>
     );
   }
@@ -151,6 +194,7 @@ Game.propTypes = {
   questions: arrayOf(shape({})).isRequired,
   callUpdateScore: func.isRequired,
   callUpdateAssertions: func.isRequired,
+  history: func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
