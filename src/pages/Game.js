@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import Header from '../components/Header';
 
 const ONE_SEC = 1000;
+const NUMBER = 0.5;
 
 class Game extends React.Component {
   state = {
@@ -17,7 +18,7 @@ class Game extends React.Component {
   componentDidMount() {
     const { questions } = this.props;
 
-    this.shuffleAnswers();
+    this.shuffleAnswers(questions);
     if (questions.length > 0) this.startTimer();
   }
 
@@ -44,9 +45,7 @@ class Game extends React.Component {
     this.setState({ isDisable: true });
   };
 
-  shuffleAnswers = () => {
-    const { questions } = this.props;
-    const NUMBER = 0.5;
+  shuffleAnswers = (questions) => {
     const answers = [
       ...questions[0].incorrect_answers,
       questions[0].correct_answer,
