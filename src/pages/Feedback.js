@@ -7,7 +7,7 @@ const MIN_ASSERTIONS = 3;
 
 class Feedback extends React.Component {
   render() {
-    const { assertions } = this.props;
+    const { assertions, score } = this.props;
 
     return (
       <div>
@@ -15,6 +15,9 @@ class Feedback extends React.Component {
         <div data-testid="feedback-text">
           {assertions >= MIN_ASSERTIONS ? 'Well Done!' : 'Could be better...'}
         </div>
+
+        <div data-testid="feedback-total-score">{score}</div>
+        <div data-testid="feedback-total-question">{assertions}</div>
       </div>
     );
   }
@@ -22,10 +25,12 @@ class Feedback extends React.Component {
 
 Feedback.propTypes = {
   assertions: number.isRequired,
+  score: number.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   assertions: state.player.assertions,
+  score: state.player.score,
 });
 
 export default connect(mapStateToProps)(Feedback);
