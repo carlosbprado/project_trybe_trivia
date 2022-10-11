@@ -1,17 +1,19 @@
-export const GET_USER = 'GET_USER';
 export const INITIAL_REQ = 'INITIAL_REQ';
-export const GET_API = 'GET_API';
-export const initialRequest = () => ({ type: INITIAL_REQ });
+export const GET_QUESTIONS = 'GET_QUESTIONS';
 
-const NUMBER = 3;
+export const SAVE_PLAYER = 'SAVE_PLAYER';
+export const UPDATE_ASSERTIONS = 'UPDATE_ASSERTIONS';
+export const UPDATE_SCORE = 'UPDATE_SCORE';
 
-export const getUser = (payload) => ({
-  type: GET_USER,
+export const savePlayer = (payload) => ({
+  type: SAVE_PLAYER,
   payload,
 });
 
+export const initialRequest = () => ({ type: INITIAL_REQ });
+
 export const responseAPI = (payload) => ({
-  type: GET_API,
+  type: GET_QUESTIONS,
   payload,
 });
 
@@ -24,10 +26,11 @@ const getToken = async () => {
 };
 
 export const requestAPI = (history) => async (dispatch) => {
+  const ERROR_CODE = 3;
   const token = await getToken();
   const response = await fetch(`https://opentdb.com/api.php?amount=5&token=${token}`);
   const result = await response.json();
-  if (result.response_code === NUMBER) {
+  if (result.response_code === ERROR_CODE) {
     localStorage.removeItem('token');
     history.push('/');
   } else {
