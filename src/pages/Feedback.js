@@ -1,5 +1,5 @@
 import React from 'react';
-import { number, func } from 'prop-types';
+import { number, shape } from 'prop-types';
 import { connect } from 'react-redux';
 import Header from '../components/Header';
 
@@ -43,7 +43,7 @@ class Feedback extends React.Component {
 Feedback.propTypes = {
   assertions: number.isRequired,
   score: number.isRequired,
-  history: func.isRequired,
+  history: shape({}).isRequired,
 };
 
 const mapStateToProps = (state) => ({

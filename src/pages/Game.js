@@ -194,7 +194,7 @@ Game.propTypes = {
   questions: arrayOf(shape({})).isRequired,
   callUpdateScore: func.isRequired,
   callUpdateAssertions: func.isRequired,
-  history: func.isRequired,
+  history: shape({}).isRequired,
 };
 
 const mapStateToProps = (state) => ({

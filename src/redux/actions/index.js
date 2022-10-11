@@ -4,6 +4,7 @@ export const GET_QUESTIONS = 'GET_QUESTIONS';
 export const SAVE_PLAYER = 'SAVE_PLAYER';
 export const UPDATE_ASSERTIONS = 'UPDATE_ASSERTIONS';
 export const UPDATE_SCORE = 'UPDATE_SCORE';
+export const SAVE_PROFILE_PICTURE = 'SAVE_PROFILE_PICTURE';
 
 export const savePlayer = (payload) => ({
   type: SAVE_PLAYER,
@@ -17,6 +18,11 @@ export const updateScore = (payload) => ({
 
 export const updateAssertions = (payload) => ({
   type: UPDATE_ASSERTIONS,
+  payload,
+});
+
+export const saveProfilePicture = (payload) => ({
+  type: SAVE_PROFILE_PICTURE,
   payload,
 });
 
