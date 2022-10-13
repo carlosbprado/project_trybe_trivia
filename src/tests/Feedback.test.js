@@ -37,6 +37,7 @@ describe('testa componente Feedback', () => {
   })
 
   it('Ao clicar no botão Ranking redireciona para a rota /ranking ', () => {
+    localStorage.setItem('ranking', JSON.stringify([]));
     const { history } = renderWithRouterAndRedux(<App />, INITIAL_STATE, '/feedback');
     const button = screen.getByTestId('btn-ranking');
     userEvent.click(button);
