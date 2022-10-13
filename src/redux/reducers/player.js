@@ -1,7 +1,14 @@
-import { SAVE_PLAYER, UPDATE_ASSERTIONS, UPDATE_SCORE, GET_QUESTIONS } from '../actions';
+import {
+  SAVE_PLAYER,
+  UPDATE_ASSERTIONS,
+  UPDATE_SCORE,
+  GET_QUESTIONS,
+  SAVE_PROFILE_PICTURE,
+  RESET_STATES,
+} from '../actions';
 
 const INITIAL_STATE = {
-  name: 'nome-da-pessoa',
+  name: '',
   assertions: 0,
   score: 0,
   gravatarEmail: '',
@@ -18,6 +25,12 @@ const user = (state = INITIAL_STATE, { type, payload }) => {
       name: payload.name,
     };
 
+  case SAVE_PROFILE_PICTURE:
+    return {
+      ...state,
+      profilePicture: payload,
+    };
+
   case UPDATE_ASSERTIONS:
     return {
       ...state,
@@ -28,6 +41,16 @@ const user = (state = INITIAL_STATE, { type, payload }) => {
     return {
       ...state,
       score: state.score + payload,
+    };
+
+  case RESET_STATES:
+    return {
+      ...state,
+      name: '',
+      assertions: 0,
+      score: 0,
+      gravatarEmail: '',
+      profilePicture: '',
     };
 
   case GET_QUESTIONS:

@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { func, shape } from 'prop-types';
-import { savePlayer, requestAPI } from '../redux/actions';
+import { savePlayer, requestAPI, resetStates } from '../redux/actions';
 
 class Login extends React.Component {
   state = {
@@ -9,6 +9,11 @@ class Login extends React.Component {
     name: '',
     isButtonDisable: true,
   };
+
+  componentDidMount() {
+    const { callResetStates } = this.props;
+    callResetStates();
+  }
 
   handleButton = (event) => {
     event.preventDefault();
@@ -97,11 +102,17 @@ Login.propTypes = {
   history: shape({
     push: func.isRequired,
   }).isRequired,
+  callResetStates: func.isRequired,
 };
+
+const mapStateToProps = (state) => ({
+  profilePicture: state.player.profilePicture,
+});
 
 const mapDispatchToProps = (dispatch) => ({
   callSavePlayer: (payload) => dispatch(savePlayer(payload)),
   callRequestAPI: (history) => dispatch(requestAPI(history)),
+  callResetStates: () => dispatch(resetStates()),
 });
 
-export default connect(null, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

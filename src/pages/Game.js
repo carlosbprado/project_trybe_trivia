@@ -1,5 +1,5 @@
 import React from 'react';
-import { arrayOf, shape, func } from 'prop-types';
+import { arrayOf, shape, func, string, number } from 'prop-types';
 import { connect } from 'react-redux';
 import Header from '../components/Header';
 import { updateAssertions, updateScore } from '../redux/actions';
@@ -103,13 +103,38 @@ class Game extends React.Component {
         const { questions } = this.props;
         const { questionPosition } = this.state;
 
-        if (questionPosition === MAX_QUESTION_POSITION) history.push('/feedback');
-        else {
+        if (questionPosition === MAX_QUESTION_POSITION) {
+          this.saveToLocalStorage();
+          history.push('/feedback');
+        } else {
           this.shuffleAnswers(questions);
           this.startTimer();
         }
       },
     );
+  };
+
+  saveToLocalStorage = () => {
+    const { name, score, profilePicture } = this.props;
+    const localRanking = JSON.parse(localStorage.getItem('ranking'));
+
+    const newRankingObj = {
+      name,
+      score,
+      picture: profilePicture,
+    };
+
+    if (localRanking) {
+      localStorage.setItem(
+        'ranking',
+        JSON.stringify([...localRanking, newRankingObj]),
+      );
+    } else {
+      localStorage.setItem(
+        'ranking',
+        JSON.stringify([newRankingObj]),
+      );
+    }
   };
 
   render() {
@@ -194,11 +219,17 @@ Game.propTypes = {
   questions: arrayOf(shape({})).isRequired,
   callUpdateScore: func.isRequired,
   callUpdateAssertions: func.isRequired,
-  history: func.isRequired,
+  history: shape({}).isRequired,
+  name: string.isRequired,
+  score: number.isRequired,
+  profilePicture: string.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   questions: state.player.questions,
+  name: state.player.name,
+  score: state.player.score,
+  profilePicture: state.player.profilePicture,
 });
 
 const mapDispatchToProps = (dispatch) => ({
