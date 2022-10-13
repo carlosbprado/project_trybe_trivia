@@ -5,6 +5,7 @@ export const SAVE_PLAYER = 'SAVE_PLAYER';
 export const UPDATE_ASSERTIONS = 'UPDATE_ASSERTIONS';
 export const UPDATE_SCORE = 'UPDATE_SCORE';
 export const SAVE_PROFILE_PICTURE = 'SAVE_PROFILE_PICTURE';
+export const RESET_STATES = 'RESET_STATES';
 
 export const savePlayer = (payload) => ({
   type: SAVE_PLAYER,
@@ -24,6 +25,10 @@ export const updateAssertions = (payload) => ({
 export const saveProfilePicture = (payload) => ({
   type: SAVE_PROFILE_PICTURE,
   payload,
+});
+
+export const resetStates = () => ({
+  type: RESET_STATES,
 });
 
 export const initialRequest = () => ({ type: INITIAL_REQ });

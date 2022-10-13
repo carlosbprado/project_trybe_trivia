@@ -8,33 +8,13 @@ class Ranking extends React.Component {
   };
 
   componentDidMount() {
-    this.saveToLocalStorage();
-
     const localRanking = JSON.parse(localStorage.getItem('ranking'));
     this.setState({ ranking: localRanking });
   }
 
-  saveToLocalStorage = () => {
-    const { name, score, profilePicture } = this.props;
-    const localRanking = JSON.parse(localStorage.getItem('ranking'));
-
-    const newRankingObj = {
-      name,
-      score,
-      picture: profilePicture,
-    };
-
-    if (localRanking) {
-      localStorage.setItem('ranking', JSON.stringify([...localRanking, newRankingObj]));
-    } else {
-      localStorage.setItem('ranking', JSON.stringify([newRankingObj]));
-    }
-  };
-
   render() {
     const { history } = this.props;
     const { ranking } = this.state;
-    console.log(ranking);
 
     return (
       <div>
@@ -45,7 +25,7 @@ class Ranking extends React.Component {
             ranking
               .sort((a, b) => b.score - a.score)
               .map((player, index) => (
-                <li key={ player.name }>
+                <li key={ index }>
                   <img src={ player.picture } alt={ player.name } />
                   <p data-testid={ `player-name-${index}` }>{player.name}</p>
                   <p data-testid={ `player-score-${index}` }>{player.score}</p>
