@@ -26,11 +26,22 @@ class Header extends React.Component {
     const { url } = this.state;
 
     return (
-      <div>
-        <img src={ url } alt={ name } data-testid="header-profile-picture" />
-        <p data-testid="header-player-name">{name}</p>
-        <p data-testid="header-score">{score}</p>
-      </div>
+      <header className="flex items-center justify-around">
+        <img
+          src={ url }
+          alt={ name }
+          data-testid="header-profile-picture"
+          className="w-14 rounded-full"
+        />
+        <p data-testid="header-player-name">
+          <span className="text-slate-400">Player:</span>
+          <span className="font-bold ml-2 text-indigo-400">{name}</span>
+        </p>
+        <p data-testid="header-score">
+          <span className="text-slate-400">Score:</span>
+          <span className="font-bold ml-2 text-indigo-400">{score}</span>
+        </p>
+      </header>
     );
   }
 }

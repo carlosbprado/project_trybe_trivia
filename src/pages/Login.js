@@ -45,61 +45,65 @@ class Login extends React.Component {
     const { history, loading } = this.props;
 
     return (
-      <form
-        onSubmit={ this.handleButton }
-        className="bg-slate-600 p-10 text-slate-100 shadow-lg max-w-lg mx-auto mb-10"
-      >
-        <div className="mb-10">
-          <label htmlFor="email">
-            <span className="hidden">e-mail</span>
-            <input
-              id="email"
-              data-testid="input-gravatar-email"
-              type="email"
-              name="email"
-              value={ email }
-              onChange={ this.handleInput }
-              placeholder="your@email.com"
-              className="w-full p-4 bg-transparent border-b-4 border-slate-500 font-bold
+      <>
+        <h1 className="hidden">Login</h1>
+
+        <form
+          onSubmit={ this.handleButton }
+          className="bg-slate-600 p-10 text-slate-100 shadow-lg max-w-lg mx-auto mb-10"
+        >
+          <div className="mb-10">
+            <label htmlFor="email">
+              <span className="hidden">e-mail</span>
+              <input
+                id="email"
+                data-testid="input-gravatar-email"
+                type="email"
+                name="email"
+                value={ email }
+                onChange={ this.handleInput }
+                placeholder="your@email.com"
+                className="w-full p-4 bg-transparent border-b-4 border-slate-500 font-bold
             placeholder:font-normal autofill:bg-transparent mb-4"
-            />
-          </label>
+              />
+            </label>
 
-          <label htmlFor="name">
-            <span className="hidden">Name</span>
-            <input
-              id="name"
-              data-testid="input-player-name"
-              type="name"
-              name="name"
-              value={ name }
-              onChange={ this.handleInput }
-              placeholder="Your Name"
-              className="w-full p-4 bg-transparent border-b-4 border-slate-500 font-bold
+            <label htmlFor="name">
+              <span className="hidden">Name</span>
+              <input
+                id="name"
+                data-testid="input-player-name"
+                type="name"
+                name="name"
+                value={ name }
+                onChange={ this.handleInput }
+                placeholder="Your Name"
+                className="w-full p-4 bg-transparent border-b-4 border-slate-500 font-bold
             placeholder:font-normal"
-            />
-          </label>
-        </div>
+              />
+            </label>
+          </div>
 
-        <button
-          data-testid="btn-play"
-          type="submit"
-          disabled={ isButtonDisable }
-          className={ `${isButtonDisable ? 'bg-slate-500' : 'bg-indigo-500 shadow-lg'} 
+          <button
+            data-testid="btn-play"
+            type="submit"
+            disabled={ isButtonDisable }
+            className={ `${isButtonDisable ? 'bg-slate-500' : 'bg-indigo-400 shadow-lg'} 
           py-4 w-full font-bold uppercase` }
-        >
-          {loading ? 'Loading...' : 'Play'}
-        </button>
+          >
+            {loading ? 'Loading...' : 'Play'}
+          </button>
 
-        <button
-          type="button"
-          data-testid="btn-settings"
-          onClick={ () => history.push('/settings') }
-          className="hidden"
-        >
-          Configurações
-        </button>
-      </form>
+          <button
+            type="button"
+            data-testid="btn-settings"
+            onClick={ () => history.push('/settings') }
+            className="hidden"
+          >
+            Configurações
+          </button>
+        </form>
+      </>
     );
   }
 }

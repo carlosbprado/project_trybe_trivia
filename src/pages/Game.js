@@ -1,5 +1,6 @@
 import React from 'react';
 import { arrayOf, shape, func, string, number } from 'prop-types';
+import { decode } from 'he';
 import { connect } from 'react-redux';
 import Header from '../components/Header';
 import { updateAssertions, updateScore } from '../redux/actions';
@@ -35,7 +36,7 @@ class Game extends React.Component {
           timer: prevState.timer - 1,
         }),
         () => {
-          if (timer === 1) this.stopTimer(intervalId);
+          if (timer === 1) this.handleAnswers();
         },
       );
     }, ONE_SEC);
@@ -142,28 +143,30 @@ class Game extends React.Component {
     const { answerColor, timer, isDisable, answers, questionPosition } = this.state;
 
     return (
-      <>
+      <div className="mb-10">
         <Header />
-        <div>
-          {timer}
+
+        <div className="text-rose-500 font-bold text-xl my-5 uppercase">
+          <span>Time left:</span>
+          <span className="ml-2">{timer}</span>
         </div>
 
         {questions.length > 0 && questionPosition < MAX_QUESTION_POSITION && (
-          <>
-            <p
+          <div>
+            <h2
               data-testid="question-category"
+              className="font-bold"
             >
               {questions[questionPosition].category}
+            </h2>
+
+            <p data-testid="question-text" className="py-4 mb-10 text-xl">
+              {decode(questions[questionPosition].question)}
             </p>
-            <br />
-            <p
-              data-testid="question-text"
-            >
-              {questions[questionPosition].question}
-            </p>
-            <br />
+
             <div
               data-testid="answer-options"
+              className="flex gap-3 flex-col mb-4"
             >
               {answers
                 .map((answer, index) => (
@@ -173,7 +176,11 @@ class Game extends React.Component {
                         key={ answer }
                         data-testid="correct-answer"
                         type="button"
-                        className={ answerColor ? 'greenColor' : '' }
+                        className={ `${answerColor
+                          ? 'greenColor bg-green-600 text-slate-100'
+                          : 'bg-slate-100 text-slate-900'} 
+                          p-4 
+                        font-bold` }
                         onClick={ () => this.handleAnswers(answer) }
                         disabled={ isDisable }
                       >
@@ -184,7 +191,11 @@ class Game extends React.Component {
                         key={ answer }
                         data-testid={ `wrong-answer-${index}` }
                         type="button"
-                        className={ answerColor ? 'redColor' : '' }
+                        className={ `${answerColor
+                          ? 'redColor bg-rose-700 text-slate-100'
+                          : 'bg-slate-100 text-slate-900'} 
+                          p-4 
+                        font-bold` }
                         onClick={ () => this.handleAnswers(answer) }
                         disabled={ isDisable }
                       >
@@ -195,7 +206,7 @@ class Game extends React.Component {
                 ))}
             </div>
 
-          </>
+          </div>
         )}
 
         {
@@ -204,13 +215,14 @@ class Game extends React.Component {
               type="button"
               data-testid="btn-next"
               onClick={ this.handleNextQuestion }
+              className="p-4 bg-indigo-400 w-full font-bold uppercase"
             >
               Next
 
             </button>
           )
         }
-      </>
+      </div>
     );
   }
 }
