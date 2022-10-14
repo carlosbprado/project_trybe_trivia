@@ -47,6 +47,8 @@ const getToken = async () => {
 };
 
 export const requestAPI = (history) => async (dispatch) => {
+  dispatch(initialRequest());
+
   const ERROR_CODE = 3;
   const token = await getToken();
   const response = await fetch(`https://opentdb.com/api.php?amount=5&token=${token}`);

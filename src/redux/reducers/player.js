@@ -5,6 +5,7 @@ import {
   GET_QUESTIONS,
   SAVE_PROFILE_PICTURE,
   RESET_STATES,
+  INITIAL_REQ,
 } from '../actions';
 
 const INITIAL_STATE = {
@@ -14,10 +15,14 @@ const INITIAL_STATE = {
   gravatarEmail: '',
   profilePicture: '',
   questions: [],
+  loading: false,
 };
 
 const user = (state = INITIAL_STATE, { type, payload }) => {
   switch (type) {
+  case INITIAL_REQ:
+    return { ...state, loading: true };
+
   case SAVE_PLAYER:
     return {
       ...state,
@@ -57,6 +62,7 @@ const user = (state = INITIAL_STATE, { type, payload }) => {
     return {
       ...state,
       questions: [...payload],
+      loading: false,
     };
   default:
     return state;

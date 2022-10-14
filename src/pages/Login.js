@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { func, shape } from 'prop-types';
+import { func, shape, bool } from 'prop-types';
 import { savePlayer, requestAPI, resetStates } from '../redux/actions';
 
 class Login extends React.Component {
@@ -42,18 +42,16 @@ class Login extends React.Component {
 
   render() {
     const { isButtonDisable, email, name } = this.state;
-    const { history } = this.props;
+    const { history, loading } = this.props;
 
     return (
-      <>
-        <div>Login</div>
-        <p>teste@teste.com</p>
-
-        <form
-          onSubmit={ this.handleButton }
-        >
+      <form
+        onSubmit={ this.handleButton }
+        className="bg-slate-600 p-10 text-slate-100 shadow-lg max-w-lg mx-auto mb-10"
+      >
+        <div className="mb-10">
           <label htmlFor="email">
-            e-mail
+            <span className="hidden">e-mail</span>
             <input
               id="email"
               data-testid="input-gravatar-email"
@@ -61,10 +59,14 @@ class Login extends React.Component {
               name="email"
               value={ email }
               onChange={ this.handleInput }
+              placeholder="your@email.com"
+              className="w-full p-4 bg-transparent border-b-4 border-slate-500 font-bold
+            placeholder:font-normal autofill:bg-transparent mb-4"
             />
           </label>
+
           <label htmlFor="name">
-            Name
+            <span className="hidden">Name</span>
             <input
               id="name"
               data-testid="input-player-name"
@@ -72,26 +74,32 @@ class Login extends React.Component {
               name="name"
               value={ name }
               onChange={ this.handleInput }
+              placeholder="Your Name"
+              className="w-full p-4 bg-transparent border-b-4 border-slate-500 font-bold
+            placeholder:font-normal"
             />
           </label>
-          <button
-            data-testid="btn-play"
-            type="submit"
-            disabled={ isButtonDisable }
-          >
-            Play
-          </button>
+        </div>
 
-          <button
-            type="button"
-            data-testid="btn-settings"
-            onClick={ () => history.push('/settings') }
-          >
-            Configurações
-          </button>
-        </form>
+        <button
+          data-testid="btn-play"
+          type="submit"
+          disabled={ isButtonDisable }
+          className={ `${isButtonDisable ? 'bg-slate-500' : 'bg-indigo-500 shadow-lg'} 
+          py-4 w-full font-bold uppercase` }
+        >
+          {loading ? 'Loading...' : 'Play'}
+        </button>
 
-      </>
+        <button
+          type="button"
+          data-testid="btn-settings"
+          onClick={ () => history.push('/settings') }
+          className="hidden"
+        >
+          Configurações
+        </button>
+      </form>
     );
   }
 }
@@ -103,10 +111,12 @@ Login.propTypes = {
     push: func.isRequired,
   }).isRequired,
   callResetStates: func.isRequired,
+  loading: bool.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   profilePicture: state.player.profilePicture,
+  loading: state.player.loading,
 });
 
 const mapDispatchToProps = (dispatch) => ({
