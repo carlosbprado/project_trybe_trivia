@@ -1,9 +1,10 @@
 import React from 'react';
 import { arrayOf, shape, func, string, number } from 'prop-types';
-import { decode } from 'he';
 import { connect } from 'react-redux';
 import Header from '../components/Header';
 import { updateAssertions, updateScore } from '../redux/actions';
+
+const de = require('he');
 
 const ONE_SEC = 1000;
 const NUMBER = 0.5;
@@ -157,11 +158,11 @@ class Game extends React.Component {
               data-testid="question-category"
               className="font-bold"
             >
-              {questions[questionPosition].category}
+              {de.decode(questions[questionPosition].category)}
             </h2>
 
             <p data-testid="question-text" className="py-4 mb-10 text-xl">
-              {decode(questions[questionPosition].question)}
+              {de.decode(questions[questionPosition].question)}
             </p>
 
             <div
@@ -170,7 +171,7 @@ class Game extends React.Component {
             >
               {answers
                 .map((answer, index) => (
-                  (answer === questions[questionPosition].correct_answer)
+                  (answer === de.decode(questions[questionPosition].correct_answer))
                     ? (
                       <button
                         key={ answer }
