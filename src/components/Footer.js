@@ -9,7 +9,7 @@ export default class Footer extends React.Component {
     const viniciusLinkedIn = 'https://www.linkedin.com/in/vinicius-bortoletto/';
 
     return (
-      <footer className="text-slate-400 text-sm">
+      <footer className="text-slate-400 text-sm mt-10">
         <p>Desenvolvido por</p>
         <p className="font-bold">
           <a

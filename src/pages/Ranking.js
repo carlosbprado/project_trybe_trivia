@@ -25,7 +25,7 @@ class Ranking extends React.Component {
           Ranking
         </h1>
 
-        <ul className="flex flex-col gap-10">
+        <ul className="flex flex-col gap-5">
           {ranking
             .sort((a, b) => b.score - a.score)
             .map((player, index) => (
