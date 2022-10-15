@@ -179,7 +179,7 @@ class Game extends React.Component {
                         type="button"
                         className={ `${answerColor
                           ? 'greenColor bg-green-600 text-slate-100'
-                          : 'bg-slate-100 text-slate-900'} 
+                          : 'bg-slate-600 text-slate-100'} 
                           p-4 
                         font-bold` }
                         onClick={ () => this.handleAnswers(answer) }
@@ -194,7 +194,7 @@ class Game extends React.Component {
                         type="button"
                         className={ `${answerColor
                           ? 'redColor bg-rose-700 text-slate-100'
-                          : 'bg-slate-100 text-slate-900'} 
+                          : 'bg-slate-600 text-slate-100'} 
                           p-4 
                         font-bold` }
                         onClick={ () => this.handleAnswers(answer) }
