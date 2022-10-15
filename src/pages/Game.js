@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import Header from '../components/Header';
 import { updateAssertions, updateScore } from '../redux/actions';
 
+const de = require('he');
+
 const ONE_SEC = 1000;
 const NUMBER = 0.5;
 const HARD_POINT = 3;
@@ -35,7 +37,7 @@ class Game extends React.Component {
           timer: prevState.timer - 1,
         }),
         () => {
-          if (timer === 1) this.stopTimer(intervalId);
+          if (timer === 1) this.handleAnswers();
         },
       );
     }, ONE_SEC);
@@ -142,38 +144,44 @@ class Game extends React.Component {
     const { answerColor, timer, isDisable, answers, questionPosition } = this.state;
 
     return (
-      <>
+      <div className="mb-10">
         <Header />
-        <div>
-          {timer}
+
+        <div className="text-rose-500 font-bold text-xl my-5 uppercase">
+          <span>Time left:</span>
+          <span className="ml-2">{timer}</span>
         </div>
 
         {questions.length > 0 && questionPosition < MAX_QUESTION_POSITION && (
-          <>
-            <p
+          <div>
+            <h2
               data-testid="question-category"
+              className="font-bold"
             >
-              {questions[questionPosition].category}
+              {de.decode(questions[questionPosition].category)}
+            </h2>
+
+            <p data-testid="question-text" className="py-4 mb-10 text-xl">
+              {de.decode(questions[questionPosition].question)}
             </p>
-            <br />
-            <p
-              data-testid="question-text"
-            >
-              {questions[questionPosition].question}
-            </p>
-            <br />
+
             <div
               data-testid="answer-options"
+              className="flex gap-3 flex-col mb-4"
             >
               {answers
                 .map((answer, index) => (
-                  (answer === questions[questionPosition].correct_answer)
+                  (answer === de.decode(questions[questionPosition].correct_answer))
                     ? (
                       <button
                         key={ answer }
                         data-testid="correct-answer"
                         type="button"
-                        className={ answerColor ? 'greenColor' : '' }
+                        className={ `${answerColor
+                          ? 'greenColor bg-green-600 text-slate-100'
+                          : 'bg-slate-600 text-slate-100'} 
+                          p-4 
+                        font-bold` }
                         onClick={ () => this.handleAnswers(answer) }
                         disabled={ isDisable }
                       >
@@ -184,7 +192,11 @@ class Game extends React.Component {
                         key={ answer }
                         data-testid={ `wrong-answer-${index}` }
                         type="button"
-                        className={ answerColor ? 'redColor' : '' }
+                        className={ `${answerColor
+                          ? 'redColor bg-rose-700 text-slate-100'
+                          : 'bg-slate-600 text-slate-100'} 
+                          p-4 
+                        font-bold` }
                         onClick={ () => this.handleAnswers(answer) }
                         disabled={ isDisable }
                       >
@@ -195,22 +207,20 @@ class Game extends React.Component {
                 ))}
             </div>
 
-          </>
+          </div>
         )}
 
-        {
-          isDisable && (
-            <button
-              type="button"
-              data-testid="btn-next"
-              onClick={ this.handleNextQuestion }
-            >
-              Next
-
-            </button>
-          )
-        }
-      </>
+        {isDisable && (
+          <button
+            type="button"
+            data-testid="btn-next"
+            onClick={ this.handleNextQuestion }
+            className="p-4 bg-indigo-400 w-full font-bold uppercase"
+          >
+            Next
+          </button>
+        )}
+      </div>
     );
   }
 }

@@ -47,10 +47,13 @@ const getToken = async () => {
 };
 
 export const requestAPI = (history) => async (dispatch) => {
+  dispatch(initialRequest());
+
   const ERROR_CODE = 3;
   const token = await getToken();
   const response = await fetch(`https://opentdb.com/api.php?amount=5&token=${token}`);
   const result = await response.json();
+
   if (result.response_code === ERROR_CODE) {
     localStorage.removeItem('token');
     history.push('/');
