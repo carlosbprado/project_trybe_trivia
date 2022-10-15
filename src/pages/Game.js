@@ -210,19 +210,16 @@ class Game extends React.Component {
           </div>
         )}
 
-        {
-          isDisable && (
-            <button
-              type="button"
-              data-testid="btn-next"
-              onClick={ this.handleNextQuestion }
-              className="p-4 bg-indigo-400 w-full font-bold uppercase"
-            >
-              Next
-
-            </button>
-          )
-        }
+        {isDisable && (
+          <button
+            type="button"
+            data-testid="btn-next"
+            onClick={ this.handleNextQuestion }
+            className="p-4 bg-indigo-400 w-full font-bold uppercase"
+          >
+            Next
+          </button>
+        )}
       </div>
     );
   }
