@@ -4,7 +4,7 @@
  - Você pode ver o projeto em funcionanto atráves deste [link](https://trybe-trivia-gamma.vercel.app/).
 
 
-<summary><strong>👨‍💻 O que deverá ser desenvolvido</strong></summary><br />
+<summary><strong>👨‍💻 O que foi desenvolvido</strong></summary><br />
 
 Este projeto é jogo de perguntas e respostas baseado no jogo **Trivia** _(tipo um show do milhão americano rs)_ utilizando _React e Redux_, desenvolvendo em grupo suas funcionalidades de acordo com as demandas definidas em um quadro _Kanban_. Onde para viver um cenário mais próximo do mercado de trabalho, foi de suma importância que o grupo se organize utilizando o quadro para maior eficiência e para que se minimizem os conflitos que a união de vários códigos pode trazer. A partir dessas demandas, teremos uma aplicação onde a pessoa usuária poderá:
 
